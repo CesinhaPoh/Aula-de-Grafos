@@ -1,5 +1,6 @@
 from collections import defaultdict
- 
+import time
+import csv
 
 #Busca em largura com grafos direcionados Usando representação da lista de adjacência
 class Graph:
@@ -41,8 +42,22 @@ class Graph:
                 if visited[i] == False:
                     queue.append(i)
                     visited[i] = True
- 
 
+#Le o grafo
+with open ('Grafo.CSV', mode='r') as csv_file:
+    dados_csv = csv.reader(csv_file, delimiter = ';')
+    k = 0
+    Vertice = []
+    g = Graph()
+    for k, linha in enumerate(dados_csv):
+        for i, coluna in enumerate(linha):
+            if k == 0:
+                Vertice.append(int(coluna))
+            elif coluna == '1':
+                g.addEdge(Vertice[k-1], Vertice[i])
+
+
+"""
 # cria um grafo direcionado
 g = Graph()
 g.addEdge(0, 1)
@@ -57,7 +72,15 @@ g.addEdge(3, 4)
 g.addEdge(4, 3)
 g.addEdge(5, 0)
 g.addEdge(5, 3)
+g.addEdge(3, 6)
+g.addEdge(2, 7)
 g.addEdge(6, 7)
 g.addEdge(7, 6)
+"""
 
-g.BFS(6)
+inicio = time.time()
+g.BFS(2)
+fim = time.time()
+ 
+#Exibe tempo decorrido
+print("\nTempo pecorrido: {0}".format(fim-inicio))
